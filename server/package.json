@@ -1,0 +1,12 @@
+{
+  "name": "todo-app-json-server",
+  "version": "1.0.0",
+  "description": "Example Todo App Fake Server",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start1": "json-server --watch db.json --port 3001"
+  },
+  "author": "",
+  "license": "ISC"
+}
