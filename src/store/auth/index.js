@@ -21,6 +21,15 @@ export const authenticationSlice = createSlice({
     logout: (state) => {
       state.loggedIn = false;
       state.user = null;
+      localStorage.removeItem("user")
+    },
+    checkIsAuthenticated: (state) => {
+      const user = localStorage.getItem("user");
+      if (user) {
+        const parsedUser = JSON.parse(user);
+        state.user = parsedUser;
+        state.loggedIn = true;
+      }
     },
     handleChangeLoginModel: {
       reducer(state, action) {
@@ -37,17 +46,18 @@ export const loginOrRegister = (loginModel) => async (dispatch) => {
   const { username, password } = loginModel;
   const loginResult = await UserService.login(username, password);
   const isUserExist = loginResult?.length > 0;
-
+  let authenticedUser = isUserExist ? loginResult[0] : null;
   if (!isUserExist) {
     const registeredUser = await UserService.register(username, password);
-    dispatch(login(registeredUser));
+    authenticedUser = registeredUser;
   }
-  dispatch(login(loginResult[0]));
+  dispatch(login(authenticedUser));
+  localStorage.setItem("user", JSON.stringify(authenticedUser));
   dispatch(handleChangeLoginModel("username", null));
   dispatch(handleChangeLoginModel("password", null));
 };
 
-export const { login, logout, handleChangeLoginModel } =
+export const { login, logout, handleChangeLoginModel, checkIsAuthenticated } =
   authenticationSlice.actions;
 
 export default authenticationSlice.reducer;

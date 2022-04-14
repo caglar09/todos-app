@@ -1,4 +1,4 @@
-import { get } from "./helpers/api";
+import { get, post } from "./helpers/api";
 
 const getTodos = () => {
   return get("todos").then((data) => {
@@ -6,4 +6,10 @@ const getTodos = () => {
   });
 };
 
-export { getTodos };
+const addTodo = (model) => {
+  return post("todos", model).then((data) => {
+    return data.data;
+  });
+};
+
+export { getTodos, addTodo };

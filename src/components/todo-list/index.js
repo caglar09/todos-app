@@ -2,12 +2,13 @@ import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 import { getTodos } from "../../store/todos";
+import { logout } from "../../store/auth";
 
 function TodoList() {
   const todoState = useSelector((state) => state.todos);
-  const authState = useSelector((state) => state.auth);
+  // const authState = useSelector((state) => state.auth);
   const dispatch = useDispatch();
-  console.log(authState);
+
   useEffect(() => {
     dispatch(getTodos());
   }, []);
@@ -25,6 +26,8 @@ function TodoList() {
           <li key={todoItem.id}>{todoItem.todo}</li>
         ))}
       </ul>
+
+      <button onClick={() => dispatch(logout())}>çikis yap</button>
     </div>
   );
 }
